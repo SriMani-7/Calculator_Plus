@@ -1,0 +1,29 @@
+buildscript {
+    ext {
+
+    }
+}// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    id 'com.android.application' version '7.3.0' apply false
+    id 'com.android.library' version '7.3.0' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+}
+
+
+ext {
+    // Jetpack compose
+    accompanist_version = '0.27.1'
+    compose_ui = '1.3.1'
+    compose_animation = '1.3.0'
+    compose_foundation = '1.3.1'
+    compose_material = '1.3.1'
+    compose_material_3 = '1.0.1'
+    compose_navigation = '2.5.3'
+    compose_compiler_version = '1.3.0'
+
+
+    androidx_core = '1.9.0'
+    appcompat = '1.5.1'
+    lifecycle_version = '2.5.1'
+    activity_version = '1.6.1'
+}
