@@ -38,7 +38,6 @@ fun CalculatorApp() {
                         popUpTo(0)
                     })
                 }
-                selectedCategory = it
             }
         )
     }, drawerState = drawerState) {
@@ -53,19 +52,23 @@ fun CalculatorApp() {
                 modifier = Modifier.padding(paddingValues)
             ) {
                 composable(Screens.CalculatorScreen.route) {
+                    selectedCategory = Category.StandardCALCULATOR
                     CalculationScreen()
                 }
                 composable(Screens.ScientificScreen.route) {
+                    selectedCategory = Category.ScientificCALCULATOR
                     CalculationScreen()
                 }
                 composable(Screens.ProgrammerCal.route) {
+                    selectedCategory = Category.ProgrammerCALCULATOR
                     CalculationScreen()
                 }
                 composable("${Screens.ConverterScreen.route}/{category}", arguments = listOf(
                     navArgument("category") { type = NavType.StringType }
                 )) { stackEntry ->
-                    stackEntry.arguments?.getString("category")?.let {
-                        ConversionScreen(it)
+                    stackEntry.arguments?.getString("category")?.let { s ->
+                        selectedCategory = Category.values().first { it.name == s }
+                        ConversionScreen(s)
                     }
                 }
             }
