@@ -1,7 +1,6 @@
 package com.ithoughts.dev.g3.calculator.viewmodels
 
 import android.app.Application
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.ithoughts.dev.g3.calculator.logic.ConversionFactors
@@ -21,7 +20,9 @@ class ConverterViewModel(application: Application) : AndroidViewModel(applicatio
     val first = _first.asStateFlow()
     private val _second = MutableStateFlow<UnitState?>(null)
     val second = _second.asStateFlow()
-    val input = mutableStateOf("")
+    private var withFirst = true
+    private var pointer = false
+    private var input = ""
 
     suspend fun updateCategory(category: String) {
         withContext(Dispatchers.IO) {
@@ -44,18 +45,41 @@ class ConverterViewModel(application: Application) : AndroidViewModel(applicatio
         else _second.update { it?.copy(value = value) }
     }
 
-    fun convert() {
-        val value = input.value
-        updateValue(true, value)
+    fun updateInput(key: String) {
+        if (pointer) {
+            input = ""
+            pointer = false
+        }
+        input = when (key) {
+            "CE" -> ""
+            "back" -> if (input.isNotEmpty()) input.dropLast(1) else ""
+            "." -> if (input.isEmpty()) "0." else if (input.contains(".")) input else input + key
+            else -> input + key
+        }
+        convert()
+    }
+
+    fun changeFrom(first: Boolean) {
+        withFirst = first
+        pointer = true
+    }
+
+    private fun convert() {
+        val value = input
+        updateValue(withFirst, value)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 if (value.isNotBlank())
-                    _first.value?.let {
-                        _second.value?.let { it1 ->
-                            val result = ConversionFactors.convert(value.toDouble(), it.unit, it1.unit)
-                            updateValue(false, "$result")
+                    _first.value?.let { f ->
+                        _second.value?.let { s ->
+                            val result = ConversionFactors.convert(
+                                value = value.toDouble(),
+                                from = if (withFirst) f.unit else s.unit,
+                                to = if (withFirst) s.unit else f.unit
+                            )
+                            updateValue(!withFirst, "$result")
                         }
-                    } else updateValue(false, "")
+                    } else updateValue(!withFirst, "")
             }
         }
     }

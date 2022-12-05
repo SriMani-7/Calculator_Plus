@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -20,7 +19,7 @@ import com.ithoughts.dev.g3.calculator.R
 
 
 @Composable
-fun ConverterNumberPad(state: MutableState<String>) {
+fun ConverterNumberPad(onKeyEvent: (String) -> Unit) {
     ElevatedCard(
         shape = MaterialTheme.shapes.large,
         elevation = CardDefaults.elevatedCardElevation(8.dp)
@@ -33,21 +32,12 @@ fun ConverterNumberPad(state: MutableState<String>) {
             userScrollEnabled = false
         ) {
             ("7 8 9 back 4 5 6 CE 1 2 3 .").split(" ").forEach { key ->
-                item() {
-                    CVNumberKey(key) {
-                        state.value = when (key) {
-                            "CE" -> ""
-                            "back" -> if (state.value.isNotEmpty()) state.value.dropLast(1) else ""
-                            "." -> if (state.value.isEmpty()) "0." else if (state.value.contains(".")) state.value else state.value + key
-                            else -> state.value + key
-                        }
-                    }
+                item {
+                    CVNumberKey(key, onKeyEvent)
                 }
             }
             item(span = { GridItemSpan(3) }) {
-                CVNumberKey("0") {
-                    state.value += it
-                }
+                CVNumberKey("0", onKeyEvent)
             }
         }
     }

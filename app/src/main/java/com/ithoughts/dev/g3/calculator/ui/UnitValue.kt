@@ -2,6 +2,8 @@
 
 package com.ithoughts.dev.g3.calculator.ui
 
+import androidx.compose.foundation.interaction.FocusInteraction
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -18,6 +20,7 @@ import com.ithoughts.dev.g3.calculator.viewmodels.UnitState
 fun UnitValue(
     unitState: UnitState,
     options: List<ConversionUnit>,
+    onFocus: () -> Unit,
     onSelected: (ConversionUnit) -> Unit
 ) {
     var menuOpened by remember { mutableStateOf(false) }
@@ -48,5 +51,12 @@ fun UnitValue(
         readOnly = true,
         textStyle = if (unitState.value.length < 20) MaterialTheme.typography.bodyLarge else MaterialTheme.typography.bodyMedium,
         placeholder = { Text(text = "0", style = MaterialTheme.typography.titleMedium) },
+        interactionSource = remember { MutableInteractionSource() }.also {
+            LaunchedEffect(it) {
+                it.interactions.collect { interaction ->
+                    if (interaction is FocusInteraction.Focus) onFocus()
+                }
+            }
+        }
     )
 }

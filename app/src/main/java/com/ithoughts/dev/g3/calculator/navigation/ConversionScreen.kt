@@ -33,15 +33,14 @@ fun ConversionScreen(
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             first?.let {
-                UnitValue(it, options) { c -> viewModel.updateOption(true, c) }
+                UnitValue(it, options, onFocus = { viewModel.changeFrom(true) }) { c -> viewModel.updateOption(true, c) }
             }
             second?.let {
-                UnitValue(it, options) { c -> viewModel.updateOption(false, c) }
+                UnitValue(it, options, onFocus = { viewModel.changeFrom(false) }) { c -> viewModel.updateOption(false, c) }
             }
         }
-        ConverterNumberPad(viewModel.input)
+        ConverterNumberPad(viewModel::updateInput)
     }
 
-    LaunchedEffect(viewModel.input.value) { viewModel.convert() }
     LaunchedEffect(Unit) { viewModel.updateCategory(category) }
 }
