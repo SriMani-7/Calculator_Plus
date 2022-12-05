@@ -2,9 +2,12 @@
 
 package com.ithoughts.dev.g3.calculator.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -57,11 +60,11 @@ fun CalculatorApp() {
                 }
                 composable(Screens.ScientificScreen.route) {
                     selectedCategory = Category.ScientificCALCULATOR
-                    CalculationScreen()
+                    ComingSoon()
                 }
                 composable(Screens.ProgrammerCal.route) {
                     selectedCategory = Category.ProgrammerCALCULATOR
-                    CalculationScreen()
+                    ComingSoon()
                 }
                 composable("${Screens.ConverterScreen.route}/{category}", arguments = listOf(
                     navArgument("category") { type = NavType.StringType }
@@ -73,5 +76,16 @@ fun CalculatorApp() {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ComingSoon() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Text(
+            text = "Coming soon...",
+            modifier = Modifier.align(Alignment.Center),
+            style = MaterialTheme.typography.displayMedium
+        )
     }
 }
