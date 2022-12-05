@@ -21,18 +21,9 @@ fun CalculatorDrawer(selected: Category, onCategoryClick: (Category) -> Unit) {
     val categories = remember { Category.values() }
     ModalDrawerSheet(modifier = Modifier.padding(end = 50.dp)) {
         LazyColumn(contentPadding = PaddingValues(12.dp, 12.dp)) {
-            item {
-                Text(
-                    text = "Calculator+",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(16.dp),
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
+            item { AppTitle() }
             items(Category.calculators()) {
-                NavItem(selected == it, it, {})
+                NavItem(selected == it, it, onCategoryClick)
             }
             item {
                 Divider(modifier = Modifier.padding(vertical = 14.dp))
@@ -60,5 +51,17 @@ fun NavItem(selected: Boolean, category: Category, onClick: (Category) -> Unit) 
         onClick = { onClick(category) },
         label = { Text(category.name, style = MaterialTheme.typography.labelLarge) },
         shape = MaterialTheme.shapes.extraLarge
+    )
+}
+
+@Composable
+fun AppTitle() {
+    Text(
+        text = "Calculator+",
+        style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(16.dp),
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Bold
     )
 }
