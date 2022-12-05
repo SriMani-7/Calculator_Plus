@@ -24,7 +24,7 @@ fun SNumberPad(onKeyPress: (String) -> Unit) {
         ) {
             "C / back % 7 8 9 * 4 5 6 - 1 2 3 + +/- 0 .".split(" ").forEach { key ->
                 item {
-                    CVNumberKey(key, onKeyPress)
+                    CVNumberKey(key,enabled = if (key == "." || key == "%") false else true, onKeyPress)
                 }
             }
             item {

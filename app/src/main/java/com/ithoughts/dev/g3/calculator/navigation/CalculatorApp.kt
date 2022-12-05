@@ -85,7 +85,7 @@ fun ComingSoon() {
         Text(
             text = "Coming soon...",
             modifier = Modifier.align(Alignment.Center),
-            style = MaterialTheme.typography.displayMedium
+            style = MaterialTheme.typography.headlineSmall
         )
     }
 }

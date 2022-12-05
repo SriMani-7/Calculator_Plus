@@ -33,19 +33,24 @@ fun ConverterNumberPad(onKeyEvent: (String) -> Unit) {
         ) {
             ("7 8 9 back 4 5 6 CE 1 2 3 .").split(" ").forEach { key ->
                 item {
-                    CVNumberKey(key, onKeyEvent)
+                    CVNumberKey(key, onClick = onKeyEvent)
                 }
             }
             item(span = { GridItemSpan(3) }) {
-                CVNumberKey("0", onKeyEvent)
+                CVNumberKey("0", onClick = onKeyEvent)
             }
         }
     }
 }
 
 @Composable
-fun CVNumberKey(key: String, onClick: (String) -> Unit) {
+fun CVNumberKey(
+    key: String,
+    enabled: Boolean = true,
+    onClick: (String) -> Unit
+) {
     TextButton(
+        enabled = enabled,
         onClick = { onClick(key) },
         shape = RoundedCornerShape(8.dp),
         contentPadding = PaddingValues(vertical = 20.dp),

@@ -39,7 +39,8 @@ fun CalculationScreen() {
                 value = viewModel.input.ifBlank { "0" },
                 onValueChange = {},
                 textStyle = MaterialTheme.typography.headlineMedium.copy(
-                    textAlign = TextAlign.End
+                    textAlign = TextAlign.End,
+                    color = MaterialTheme.colorScheme.secondary
                 ),
                 modifier = Modifier.fillMaxWidth(),
                 readOnly = true,
