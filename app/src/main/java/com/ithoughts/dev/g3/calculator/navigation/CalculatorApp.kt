@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navOptions
 import com.ithoughts.dev.g3.calculator.logic.Category
 import com.ithoughts.dev.g3.calculator.ui.CalculatorAppbar
 import kotlinx.coroutines.launch
@@ -18,7 +19,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun CalculatorApp() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    var selectedCategory by remember { mutableStateOf<Category>(Category.LENGTH) }
+    var selectedCategory by remember { mutableStateOf<Category>(Category.StandardCALCULATOR) }
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
     ModalNavigationDrawer(drawerContent = {
@@ -33,7 +34,9 @@ fun CalculatorApp() {
                         is Category.ProgrammerCALCULATOR -> Screens.ProgrammerCal.route
                         else -> "${Screens.ConverterScreen.route}/${it.name}"
                     }
-                    navController.navigate(destination)
+                    navController.navigate(destination, navOptions = navOptions {
+                        popUpTo(0)
+                    })
                 }
                 selectedCategory = it
             }
