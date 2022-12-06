@@ -26,10 +26,7 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
             return
         }
         else input = when (key) {
-            "C" -> {
-                result = ""
-                ""
-            }
+            "C" -> ""
             "back" -> if (input.isNotBlank()) input.dropLast(1) else ""
             "." -> if (input.isEmpty()) "0." else if (input.contains(".")) input else input + key
             "+/-" -> if (input.startsWith("-")) input.removePrefix("-") else "-$input"
@@ -37,6 +34,7 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
             else -> input + key
         }
         if (input.isNotBlank() && input.last().toString() !in symbols()) calculate()
+        else result = ""
     }
 
     private fun calculate() {
